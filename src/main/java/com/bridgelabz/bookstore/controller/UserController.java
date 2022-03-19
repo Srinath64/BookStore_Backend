@@ -24,19 +24,31 @@ public class UserController {
     @Autowired
     MyEmailService emailService;
 
+    /*
+       Purpose : Get All the Users registered in the Database
+     */
+
     @GetMapping(value = {"", "/"})
     ResponseEntity<ResponseDTO> getUsers(){
         return new ResponseEntity<ResponseDTO> (new ResponseDTO("Get Call Success",
                 userService.getUsers()), HttpStatus.OK);
     }
 
+    /*
+       Purpose : Get All the Users registered in the Database based on UserId
+
+     */
+
     @GetMapping("/user/{userId}")
     public ResponseEntity<ResponseDTO> getUserbyId(@PathVariable("userId") Long userId) {
         return new ResponseEntity<ResponseDTO>( new
                 ResponseDTO("Get Call By Id Success",
                 userService.getUserById(userId)), HttpStatus.OK);
-
     }
+
+    /*
+       Purpose : Get All the Users registered in the Database based on Email-ID
+     */
 
     @GetMapping("/useremail/{emailId}")
     public ResponseEntity<ResponseDTO> getUserByEmailId(@PathVariable("emailId") String emailId) {
@@ -45,11 +57,19 @@ public class UserController {
                 userService.getUserByEmailId(emailId)), HttpStatus.OK);
     }
 
+    /*
+       Purpose : To add a new User in the database
+     */
+
     @PostMapping("/adduser")
     ResponseEntity<Response> addUser(@RequestBody UserDTO userDTO){
         Response response = userService.addUser(userDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    /*
+       Purpose : Ability to Login to the webpage using Username and Password
+     */
 
     @PostMapping("/login")
     public ResponseEntity<Response> userLogin(@RequestParam(name = "email") String email_id, @RequestParam String psw) {
@@ -57,11 +77,19 @@ public class UserController {
         return new ResponseEntity<Response>(resp, HttpStatus.OK);
     }
 
+    /*
+       Purpose : Reset the password using Token
+     */
+
     @PostMapping("/forgotpsw")
     public ResponseEntity<Response> forgotPassword(@RequestParam(name = "token") String token, @RequestParam String psw) {
         Response resp = userService.forgotPassword(token, psw);
         return new ResponseEntity<Response>(resp, HttpStatus.OK);
     }
+
+    /*
+       Purpose : Verify thr USer using OTP
+     */
 
     @PostMapping("/verifyuser")
     ResponseEntity<Response> verifyUser(@RequestBody VerifyUser verifyUser){
@@ -69,11 +97,20 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /*
+       Purpose : Sending the mail to the registered user
+     */
+
     @PostMapping("send")
     public String sendEmail(HttpServletRequest req) {
         emailService.sendOTPMessage("srinathkalai6414@gmail.com", "Email testing", "you registered successfully");
         return "hello";
     }
+
+    /*
+       Purpose : Update the user details in the database
+     */
+
 
     @PutMapping("/updateuser/{token}")
     ResponseEntity<Response> updateUser(@PathVariable("token") String token,
@@ -81,6 +118,10 @@ public class UserController {
         Response resp = userService.updateUser(token, userDTO);
         return new ResponseEntity<Response>(resp, HttpStatus.OK);
     }
+
+    /*
+       Purpose : Delete the user details in the Database
+     */
 
     @DeleteMapping("/delete/{token}")
     public ResponseEntity<ResponseDTO> deleteUser(@PathVariable("token") String token) {

@@ -23,11 +23,19 @@ public class OrderController {
     @Autowired
     IOrderService orderService;
 
+    /*
+       Purpose : To get all the orders by their respective order_id
+     */
+
     @GetMapping(value = "/{orderId}")
     public ResponseEntity<ResponseDTO> getOrderById(@PathVariable("orderId") Long order_id) {
         return new ResponseEntity<ResponseDTO>(new ResponseDTO("Get call success",
                 orderService.getBookById(order_id)), HttpStatus.OK);
     }
+
+    /*
+       Purpose : To get all the orders placed
+     */
 
     @GetMapping(value = "/getallorders")
     public ResponseEntity<ResponseDTO> getAllOrders() {
@@ -35,11 +43,19 @@ public class OrderController {
                 orderService.getAllOrders()), HttpStatus.OK);
     }
 
+    /*
+       Purpose : To get all the orders placed by the specific user
+     */
+
     @GetMapping(value = "getorders/{token}")
     public ResponseEntity<ResponseDTO> getOrderByUser(@PathVariable("token") String token) {
         return new ResponseEntity<ResponseDTO>(new ResponseDTO("Get call success",
                 orderService.getAllOrderForUser(token)), HttpStatus.OK);
     }
+
+    /*
+       Purpose : To Cancel the orders placed by the user
+     */
 
     @PutMapping("cancel/{orderId}")
     public String cancelOrder(@PathVariable("orderId") Long orderId) {
@@ -47,6 +63,10 @@ public class OrderController {
         orderService.cancelOrder(orderId);
         return "Order cancelled";
     }
+
+    /*
+       Purpose : To Place the new order for specific user
+     */
 
     @PostMapping("/add/{token}")
     public ResponseEntity<ResponseDTO> placeOrder(@PathVariable("token") String token, @RequestBody OrderDTO orderDTO) {

@@ -28,6 +28,10 @@ public class BookController {
     @Autowired
     IBookService bookService;
 
+    /*
+       Purpose : Get all the books from the database
+     */
+
     @GetMapping(value = {"","/"})
     List<Book> getBooks(){
 //		return new ResponseEntity<ResponseDTO>(new ResponseDTO("Get call success",
@@ -35,16 +39,28 @@ public class BookController {
         return bookService.getBooks();
     }
 
+    /*
+       Purpose : Get all the books from the database based on Book_id
+     */
+
     @GetMapping(value = "/{bookId}")
     public ResponseEntity<ResponseDTO> getBookById(@PathVariable("bookId") Long Book_id) {
         return new ResponseEntity<ResponseDTO>(new ResponseDTO("Get call success",
                 bookService.getBookById(Book_id)), HttpStatus.OK);
     }
 
+    /*
+       Purpose : Get all the books from the database based on book name
+     */
+
     @GetMapping(value = "bookname/{name}")
     public List<Book> getBookByName(@PathVariable("name") String name) {
         return bookService.getBookByName(name);
     }
+
+    /*
+       Purpose : Sort all the books based on the price
+     */
 
     @GetMapping(value = "sort/{name}")
     public List<Book> sortHighToLow(@PathVariable("name") int name) {
@@ -57,12 +73,20 @@ public class BookController {
         }
     }
 
+    /*
+       Purpose : Add new book to the database
+     */
+
     @PostMapping("/add")
     ResponseEntity<ResponseDTO> addBook(@RequestBody BookDTO bookDTO){
 
         return new ResponseEntity<ResponseDTO>(new ResponseDTO("Post call success",
                 bookService.addBook(bookDTO)), HttpStatus.OK);
     }
+
+    /*
+       Purpose : Update the book details based on book_id
+     */
 
     @PutMapping("/update/{bookId}")
     ResponseEntity<ResponseDTO> updateBook(@PathVariable("bookId") Long Book_id, @RequestBody BookDTO bookDTO){
@@ -71,6 +95,10 @@ public class BookController {
                 bookService.updateBook(Book_id, bookDTO)), HttpStatus.OK);
     }
 
+    /*
+       Purpose : Delete the book using book_id
+     */
+
     @DeleteMapping("/delete/{bookId}")
     public ResponseEntity<ResponseDTO> deleteUser(@PathVariable("bookId") Long bookId) {
         bookService.deleteBook(bookId);
@@ -78,12 +106,20 @@ public class BookController {
                 HttpStatus.OK);
     }
 
+    /*
+       Purpose : Change the price of the book using token
+     */
+
     @PostMapping("/changeprice/{token}")
     public ResponseEntity<ResponseDTO> changePrice(@PathVariable("token") String token, @RequestParam(name = "book_id") Long book_id, @RequestParam Float price) {
         bookService.changeBookPrice(token, book_id, price);
         return new ResponseEntity<ResponseDTO>(new ResponseDTO("deleted adressBook data with personId :", bookService.getBookById(book_id)),
                 HttpStatus.OK);
     }
+
+    /*
+       Purpose : Change the Quantity of the book using token
+     */
 
     @PostMapping("/changequantity/{token}")
     public ResponseEntity<ResponseDTO> changeQuantity(@PathVariable("token") String token, @RequestParam(name = "book_id") Long book_id, @RequestParam Long quantity) {

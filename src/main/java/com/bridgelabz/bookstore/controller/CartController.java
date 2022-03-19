@@ -30,6 +30,10 @@ public class CartController {
     @Autowired
     ICartService cartService;
 
+    /*
+       Purpose : To add a book to the cart
+     */
+
     @PostMapping("/add")
     ResponseEntity<ResponseDTO> addToCart(@RequestBody CartServiceDTO cartDTO){
 
@@ -37,11 +41,19 @@ public class CartController {
                 cartService.addCart(cartDTO)), HttpStatus.OK);
     }
 
+    /*
+       Purpose : To remove a book from the cart using cart_id
+     */
+
     @DeleteMapping("/remove/{cartId}")
     ResponseEntity<ResponseDTO> removeFromCart(@PathVariable("cartId") Long cartId){
         cartService.removeFromCart(cartId);
         return new ResponseEntity<ResponseDTO>(new ResponseDTO("Delete call success",""), HttpStatus.OK);
     }
+
+    /*
+       Purpose : To remove all the books from the cart
+     */
 
     @DeleteMapping("/removeall/{token}")
     ResponseEntity<ResponseDTO> removeFromCart(@PathVariable("token") String token){
@@ -49,7 +61,9 @@ public class CartController {
         return new ResponseEntity<ResponseDTO>(new ResponseDTO("Delete call success",""), HttpStatus.OK);
     }
 
-
+    /*
+       Purpose : To Update the cart using token
+     */
 
     @PutMapping("/update/{token}")
     ResponseEntity<ResponseDTO> updateCart(@PathVariable("token") String token, @RequestParam("cart_id")Long cartId,
@@ -59,11 +73,19 @@ public class CartController {
                 ""), HttpStatus.OK);
     }
 
+    /*
+       Purpose : To get all the books added in the cart by specific user
+     */
+
     @GetMapping("get/{token}")
     List<Cart> findAllCartsByUser(@PathVariable("token") String token){
         List<Cart> carts = cartService.findAllCarts(token);
         return carts;
     }
+
+    /*
+       Purpose : To get all the book_id added in the cart
+     */
 
     @GetMapping("getbooklist/{token}")
     List<Long> findAllCartBookIds(@PathVariable("token") String token){
