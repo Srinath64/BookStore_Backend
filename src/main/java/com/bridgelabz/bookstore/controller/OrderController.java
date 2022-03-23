@@ -2,7 +2,11 @@ package com.bridgelabz.bookstore.controller;
 
 import com.bridgelabz.bookstore.dto.OrderDTO;
 import com.bridgelabz.bookstore.dto.ResponseDTO;
+import com.bridgelabz.bookstore.dto.UserDTO;
 import com.bridgelabz.bookstore.services.IOrderService;
+import com.bridgelabz.bookstore.services.MyEmailService;
+import com.bridgelabz.bookstore.services.OrderService;
+import com.bridgelabz.bookstore.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/order")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -22,6 +28,9 @@ public class OrderController {
 
     @Autowired
     IOrderService orderService;
+
+    @Autowired
+    MyEmailService emailService;
 
     /*
        Purpose : To get all the orders by their respective order_id
@@ -74,5 +83,4 @@ public class OrderController {
         return new ResponseEntity<ResponseDTO>(new ResponseDTO("Get call success",
                 orderService.placeOrder(token, orderDTO)), HttpStatus.OK);
     }
-
 }

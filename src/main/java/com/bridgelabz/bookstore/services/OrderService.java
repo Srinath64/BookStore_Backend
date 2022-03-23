@@ -88,7 +88,7 @@ public class OrderService implements IOrderService {
     @Override
     public String cancelOrder(Long order_id) {
         Optional<Order> isPresent = orderRepo.findById(order_id);
-        if(isPresent.isPresent()) {
+        if (isPresent.isPresent()) {
             isPresent.get().setCancel(true);
             orderRepo.save(isPresent.get());
             return "Order is Cancelled";

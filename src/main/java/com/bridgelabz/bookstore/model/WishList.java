@@ -3,22 +3,15 @@ package com.bridgelabz.bookstore.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "cart_service")
-public @Data class Cart {
+@Table(name = "wishlist_service")
+public @Data class WishList {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long cart_id;
+    private Long wishlist_id;
 
     @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,12 +25,13 @@ public @Data class Cart {
 
     private Long quantity;
 
-    public Cart() {
+    public WishList() {
     }
 
-    public Cart(User user, Book book, Long quantity) {
+    public WishList(User user, Book book, Long quantity) {
         this.user = user;
         this.book = book;
         this.quantity = quantity;
     }
+
 }
